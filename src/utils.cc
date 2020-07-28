@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <string.h>
 #include <cassert>
+#include <complex>
 
 //x[i] <- x[i-r]
 void shift(complex_t * x, int n, int r)
@@ -47,7 +48,7 @@ int gcd(int a, int b)
 
 double phase(complex_t x)
 {
-  return atan2(cimag(x), creal(x));
+  return atan2(std::imag(x), std::real(x));
 }
 
 double mean(real_t * x, int n)
@@ -262,11 +263,11 @@ double AWGN(complex_t * x, int n, double std_noise)
 
   for (int h = 0; h < n; h++)
     {
-      sig_power += cabs(x[h]) * cabs(x[h]);
+      sig_power += std::abs(x[h]) * std::abs(x[h]);
 
       u = drand48();
       v = drand48();
-      gn = std_noise * sqrt(-2 * log(u)) * cexp(2 * M_PI * I * v);
+      gn = std_noise * sqrt(-2 * log(u)) * std::polar(1.0, 2 * M_PI * v);
 
       noise_power += -2 * log(u);
 

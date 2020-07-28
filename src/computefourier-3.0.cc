@@ -25,6 +25,7 @@
 #include <cassert>
 #include <algorithm>
 #include <cmath>
+#include <complex>
 
 #ifdef HAVE_IPP
 #include <ippvm.h>
@@ -305,8 +306,8 @@ update_mansour_loops2(int key, complex_t value, complex_t * SAMP, int n,
   double *d_SAMP = (double *)SAMP;
   int hashed_to = key & (W_Man - 1);
 
-  double value_real = creal(value);
-  double value_imag = cimag(value);
+  double value_real = std::real(value);
+  double value_imag = std::imag(value);
 
   double cp_arg[] =
   { PI2_OVER_N * key * offset, PI2_OVER_N * key * (offset + 1) };
@@ -1058,7 +1059,7 @@ alternate_fft(sfft_v3_data * data, complex_t * out, complex_t * origx,
             }
           for (int j = 0; j < W_Man; j++)
             {
-              if (cabs2(MAN_SAMP[2 * j] / W_Man) > 1e-6)
+              if (std::abs(MAN_SAMP[2 * j] / real_t(W_Man)) > 1e-6)
                 count_man++;
               FLOPCOUNT_INCREMENT(2 + 1);
             }

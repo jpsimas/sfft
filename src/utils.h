@@ -23,6 +23,7 @@
 #define UTILS_H
 
 #include "fft.h"
+#include <complex>
 
 // Compute the gcd of a and b
 // assumes a, b > 0.
@@ -70,7 +71,7 @@ double AWGN(complex_t * x, int n, double std_noise);
 
 inline double cabs2(complex_t x)
 {
-  return (creal(x) * creal(x) + cimag(x) * cimag(x));
+  return (std::real(x) * std::real(x) + std::imag(x) * std::imag(x));
 }
 
 double binomial_cdf(double prob, int n, int needed);

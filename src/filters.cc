@@ -26,6 +26,7 @@
 #include<cassert>
 #include<cstring>
 #include<cstdlib>
+#include <complex>
 #include "fftw.h"
 
 #include "sfft.h"
@@ -64,7 +65,7 @@ double Cheb(double m, double x)
   if (fabs(x) <= 1)
     return cos(m * acos(x));
   else
-    return creal(ccosh(m * cacosh(x)));
+    return std::real(cosh(m * acosh(x)));
 }
 
 complex_t *make_dolphchebyshev_t(double lobefrac, double tolerance, int &w)
@@ -81,7 +82,7 @@ complex_t *make_dolphchebyshev_t(double lobefrac, double tolerance, int &w)
   fftw_dft(x, w, x);
   shift(x, w, w / 2);
   for (int i = 0; i < w; i++)
-    x[i] = creal(x[i]);
+    x[i] = std::real(x[i]);
   return x;
 }
 
@@ -125,16 +126,17 @@ Filter make_multiple_t(complex_t * x, int w, int n, int b)
   for (int i = 0; i < n; i++)
     {
       h[(i + n + offset) % n] = s;
-      max = std::max(max, cabs(s));
+      max = std::max(max, std::abs(s));
       s = s + (g[(i + b) % n] - g[i]);
     }
   for (int i = 0; i < n; i++)
     h[i] /= max;
 
-  complex_t offsetc = 1, step = cexp(-2 * M_PI * I * (w / 2) / n);
+  complex_t offsetc = 1;
+  complex_t step = std::polar(1.0, -2 * M_PI * (w / 2) / n);
   for (int i = 0; i < n; i++)
     {
-      //offsetc = cexp(-2*M_PI * I * (w/2) * i / n);
+      //offsetc = std::exp(-2*M_PI * I * (w/2) * i / n);
       h[i] *= offsetc;
       offsetc *= step;
     }

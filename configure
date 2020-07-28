@@ -10,7 +10,7 @@ cd $WORKINGDIR
 #abs path
 WORKINGDIR=`pwd`
 cd $CUR_DIR
-WAF=$WORKINGDIR/tools/waf
+WAF=/usr/bin/waf
 
 # Generates a Makefile. Requires that $WAF is set.
 #

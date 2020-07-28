@@ -23,7 +23,7 @@
 #define FFT_H
 
 #include<cmath>
-#include<complex.h>
+#include<complex>
 #include<vector>
 
 #define Vec(a, b) std::vector<__typeof(*(a))> ((a), (a)+(b))
@@ -33,14 +33,14 @@
 #define USE_DOUBLE
 
 #ifdef USE_FLOAT
-typedef float complex complex_t;
+typedef float std::complex<float> complex_t;
 typedef float real_t;
 #define cexp cexpf
 #define exp expf
 #endif
 
 #ifdef USE_DOUBLE
-typedef double complex complex_t;
+typedef std::complex<double> complex_t;
 typedef double real_t;
 #endif
 
